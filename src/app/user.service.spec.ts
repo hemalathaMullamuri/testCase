@@ -26,12 +26,40 @@ describe('UserService', () => {
       })
       .catch(done.fail);
   });
+
+  it('negative scenario', (done) => {
+    const userService = TestBed.get(UserService);
+    userService
+      .getBadMessage()
+      .then((resp) => {
+        console.log('my response code is' + resp.statusText);
+        const users = resp.json();
+        expect(Array.isArray(users)).toBeTruthy();
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('positive scenario', (done) => {
+    const userService = TestBed.get(UserService);
+    userService
+      .getUsers()
+      .then((resp) => {
+        console.log('my response code is ' + resp.status);
+        const users = resp.json();
+        expect(Array.isArray(users)).toBeTruthy();
+        done();
+      })
+      .catch(done.fail);
+  });
+
+
   it('id must be greater than zero', (done) => {
     const userService = TestBed.get(UserService);
     userService
       .getUsers()
       .then((resp) => {
-        const users = resp.json();       
+        const users = resp.json();
         expect(users[0].id).toBeGreaterThanOrEqual(0);
         expect(Array.isArray(users)).toBeTruthy();
         done();
@@ -44,7 +72,7 @@ describe('UserService', () => {
     userService
       .getUsers()
       .then((resp) => {
-        const users = resp.json();       
+        const users = resp.json();
         expect(users[1].id).toBeLessThan(users[5].id);
         expect(Array.isArray(users)).toBeTruthy();
         done();
@@ -56,8 +84,8 @@ describe('UserService', () => {
     userService
       .getUsers()
       .then((resp) => {
-        const users = resp.json();  
-        for(var i=0; i<users.length; i++) {
+        const users = resp.json();
+        for (let i = 0; i < users.length; i++) {
           expect(users[i].email.length).toBeGreaterThan(0);
         }
         expect(Array.isArray(users)).toBeTruthy();
@@ -71,8 +99,8 @@ describe('UserService', () => {
     userService
       .getUsers()
       .then((resp) => {
-        const users = resp.json();  
-        for(var i=0; i<users.length; i++) {
+        const users = resp.json();
+        for (let i = 0; i < users.length; i++) {
           expect(users[1].name).toEqual('Ervin Howell');
         }
         expect(Array.isArray(users)).toBeTruthy();
